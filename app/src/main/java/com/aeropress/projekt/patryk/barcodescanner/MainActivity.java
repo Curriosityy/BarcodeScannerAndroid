@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Pair;
 import android.view.MenuItem;
 import android.widget.TextView;
-import com.google.zxing.client.result.*;
+import android.widget.Toast;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_notifications:
                     scanner.initiateScan();
                     //new CodaBarReader().;
-                    //mTextMessage.setText(R.string.title_notifications);
+                    //
                     return true;
             }
             return false;
@@ -33,7 +36,16 @@ public class MainActivity extends AppCompatActivity {
     };
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-       // IntentResult result = scanner.parseActivityResult(requestCode, resultCode, data);
+        IntentResult result = scanner.parseActivityResult(requestCode, resultCode, data);
+        if (result != null) {
+            if (result.getContents() == null) {
+                Toast.makeText(this,    "Cancelled",Toast.LENGTH_LONG).show();
+            } else {
+                mTextMessage.setText(result.getContents());
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
 
     }
     @Override
@@ -41,11 +53,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mTextMessage = (TextView) findViewById(R.id.message);
+        mTextMessage = (TextView) findViewById(R.id.barcodeText);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         scanner=new IntentIntegrator(this);
 
     }
+
+    private String DecodeProductOrigin(String barcode)
+    {
+
+        int originCode=Integer.getInteger(barcode.substring(0,3));
+        Pair<Integer,Integer>code=new Pair<>(0,19);
+        ArrayList<String> coutries = new ArrayList<>();
+        return "aaa";
+    }
+
 
 }
