@@ -29,6 +29,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.google.zxing:zxing-parent:3.3.3'
-    implementation files('libs/core-3.3.3.jar')
     implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
 }
