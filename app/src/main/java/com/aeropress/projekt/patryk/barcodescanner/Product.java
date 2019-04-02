@@ -8,9 +8,8 @@ public class Product {
     public float carbon;
     public float fat;
     public float protein;
-    public String origin;
 
-    public Product(String bar,String name, float cal,float carbon, float fat,float protein, String origin)
+    public Product(String bar,String name, float cal,float carbon, float fat,float protein)
     {
         this.barcode=bar;
         this.name=name;
@@ -18,7 +17,6 @@ public class Product {
         this.carbon=carbon;
         this.fat=fat;
         this.protein=protein;
-        this.origin=origin;
     }
 
 

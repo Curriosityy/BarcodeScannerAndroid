@@ -12,25 +12,23 @@ public class DBHelper extends SQLiteOpenHelper {
     public static String DATABASE_NAME = "BarcodeDB";
     public static int DATABASE_VERSION = 1;
 
-    public static final String PRODUCT_TABLE_NAME = "Product";
-    public static final String PRODUCT_COLUMN_ID= "id";
-    public static final String PRODUCT_COLUMN_BARCODE = "barcode";
-    public static final String PRODUCT_COLUMN_NAME = "name";
-    public static final String PRODUCT_COLUMN_CAL = "cal";
-    public static final String PRODUCT_COLUMN_PROTEIN = "protein";
-    public static final String PRODUCT_COLUMN_CARBONS = "carbons";
-    public static final String PRODUCT_COLUMN_FAT = "fat";
-    public static final String PRODUCT_COLUMN_ORIGIN = "origin";
+    public static final String PRODUCT_TABLE_NAME = "PRODUCT";
+    public static final String PRODUCT_COLUMN_ID= "ID";
+    public static final String PRODUCT_COLUMN_BARCODE = "BARCODE";
+    public static final String PRODUCT_COLUMN_NAME = "NAME";
+    public static final String PRODUCT_COLUMN_CAL = "CAL";
+    public static final String PRODUCT_COLUMN_PROTEIN = "PROTEIN";
+    public static final String PRODUCT_COLUMN_CARBONS = "CARBONS";
+    public static final String PRODUCT_COLUMN_FAT = "FATS";
 
     public static final String SQLITE_CREATE_PRODUCT_TABLE =" CREATE TABLE "+PRODUCT_TABLE_NAME+"("
             +PRODUCT_COLUMN_ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"
-            +PRODUCT_COLUMN_BARCODE+"TEXT NOT NULL UNIQUE,"
-            +PRODUCT_COLUMN_NAME+"TEXT NOT NULL,"
-            +PRODUCT_COLUMN_CAL+"INTEGER NOT NULL,"
-            +PRODUCT_COLUMN_PROTEIN+"INTEGER NOT NULL,"
-            +PRODUCT_COLUMN_CARBONS+"INTEGER NOT NULL,"
-            +PRODUCT_COLUMN_FAT+"INTEGER NOT NULL,"
-            +PRODUCT_COLUMN_ORIGIN+"TEXT NOT NULL"
+            +PRODUCT_COLUMN_BARCODE+" TEXT NOT NULL UNIQUE,"
+            +PRODUCT_COLUMN_NAME+" TEXT NOT NULL,"
+            +PRODUCT_COLUMN_CAL+" INTEGER NOT NULL,"
+            +PRODUCT_COLUMN_PROTEIN+" INTEGER NOT NULL,"
+            +PRODUCT_COLUMN_CARBONS+" INTEGER NOT NULL,"
+            +PRODUCT_COLUMN_FAT+" INTEGER NOT NULL"
             +");";
 
 
@@ -61,16 +59,15 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(PRODUCT_COLUMN_CARBONS,product.carbon);
         cv.put(PRODUCT_COLUMN_FAT,product.fat);
         cv.put(PRODUCT_COLUMN_PROTEIN,product.protein);
-        cv.put(PRODUCT_COLUMN_ORIGIN,product.origin);
         return getWritableDatabase().insert(PRODUCT_TABLE_NAME,null,cv);
     }
     public Product getProductFromDB(String barcode)
     {
-        Cursor cur=getWritableDatabase().rawQuery("SELECT * FROM "+PRODUCT_TABLE_NAME+" WHERE "+PRODUCT_COLUMN_BARCODE+" = "+barcode ,null);
+        Cursor cur = getWritableDatabase().rawQuery("SELECT * FROM "+PRODUCT_TABLE_NAME+" WHERE "+PRODUCT_COLUMN_BARCODE+" = '"+barcode+"';" ,null);
         if(cur.getCount()==0)
             return null;
         cur.moveToFirst();
-        return new Product(cur.getString(1),cur.getString(2),cur.getFloat(3),cur.getFloat(5),cur.getFloat(6),cur.getFloat(4),cur.getString(7));
+        return new Product(cur.getString(1),cur.getString(2),cur.getFloat(3),cur.getFloat(5),cur.getFloat(6),cur.getFloat(4));
     }
     public boolean updateProductValues(Product product)
     {
@@ -84,7 +81,7 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(PRODUCT_COLUMN_CARBONS,product.carbon);
         cv.put(PRODUCT_COLUMN_FAT,product.fat);
         cv.put(PRODUCT_COLUMN_PROTEIN,product.protein);
-        getWritableDatabase().update(PRODUCT_TABLE_NAME,cv,PRODUCT_COLUMN_BARCODE+"='?'",new String[]{product.barcode});
+        getWritableDatabase().update(PRODUCT_TABLE_NAME,cv,PRODUCT_COLUMN_BARCODE+"=?",new String[]{product.barcode});
         return true;
     }
 
