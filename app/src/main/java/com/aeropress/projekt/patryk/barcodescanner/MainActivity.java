@@ -42,6 +42,14 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     };
+    private void clearInput()
+    {
+        name.setText("");
+        cal.setText("");
+        car.setText("");
+        fat.setText("");
+        prot.setText("");
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         IntentResult result = scanner.parseActivityResult(requestCode, resultCode, data);
@@ -53,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 if(product!=null)
                 {
                     Toast.makeText(this,    "Product founded",Toast.LENGTH_LONG).show();
+                    clearInput();
                     barcode.setText(product.barcode);
                     name.setText(product.name);
                     cal.setText(String.valueOf(product.cal));
@@ -83,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
                 {
                     Toast.makeText(this,    "Product don't exist",Toast.LENGTH_LONG).show();
                     barcode.setText(result.getContents());
+                    clearInput();
                     button.setVisibility(View.VISIBLE);
                     button.setText("Add");
                     button.setOnClickListener(new View.OnClickListener() {
